@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Перечень информации для составления модели</title>
+  <meta name="description" content="Структурированный перечень информации для составления модели клиники: параметры проекта, штат, СМР и оснащение кабинетов." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --surface: rgba(255, 255, 255, 0.08);
+      --surface-strong: rgba(255, 255, 255, 0.12);
+      --border: rgba(255, 255, 255, 0.14);
+      --text: #f5f7ff;
+      --muted: #a8b0d3;
+      --accent: #7c9cff;
+      --accent-2: #5eead4;
+      --accent-3: #c084fc;
+      --shadow: 0 20px 60px rgba(7, 12, 30, 0.45);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --container: 1200px;
+      --transition: 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124, 156, 255, 0.22), transparent 28%),
+        radial-gradient(circle at top right, rgba(94, 234, 212, 0.18), transparent 25%),
+        radial-gradient(circle at bottom center, rgba(192, 132, 252, 0.16), transparent 24%),
+        linear-gradient(180deg, #0b1020 0%, #0e1428 52%, #0a1020 100%);
+      min-height: 100vh;
+    }
+
+    .page-shell {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-shell::before,
+    .page-shell::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .page-shell::before {
+      top: 80px;
+      left: -80px;
+      background: rgba(124, 156, 255, 0.18);
+    }
+
+    .page-shell::after {
+      right: -60px;
+      top: 420px;
+      background: rgba(94, 234, 212, 0.16);
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      padding: 56px 0 28px;
+    }
+
+    .hero-card {
+      position: relative;
+      padding: 42px;
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.10), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(124, 156, 255, 0.18), transparent 20%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--accent-2);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      box-shadow: 0 0 16px rgba(94, 234, 212, 0.6);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 68px);
+      line-height: 0.98;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      max-width: 980px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(124,156,255,0.95), rgba(94,234,212,0.92));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 24px rgba(255,255,255,0.06);
+    }
+
+    .hero-subtitle {
+      margin-top: 22px;
+      max-width: 820px;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.75;
+    }
+
+    .hero-stats {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .stat-chip {
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: #dce5ff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .section {
+      padding: 22px 0 10px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 20px;
+      font-size: clamp(22px, 3vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 22px rgba(124, 156, 255, 0.45);
+      flex-shrink: 0;
+    }
+
+    .section-lead,
+    .section-text {
+      color: var(--muted);
+      margin: 0 0 22px;
+      max-width: 860px;
+      line-height: 1.75;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    .skill-card {
+      grid-column: span 4;
+      position: relative;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.045));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+      overflow: hidden;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(124,156,255,0.38);
+      box-shadow: 0 24px 70px rgba(7, 12, 30, 0.52);
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
+    }
+
+    .skill-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -40px auto;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,156,255,0.18), transparent 68%);
+      transition: transform var(--transition);
+    }
+
+    .skill-card:hover::after {
+      transform: scale(1.18);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      font-size: 20px;
+      background: linear-gradient(135deg, rgba(124,156,255,0.22), rgba(94,234,212,0.16));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .skill-card h3,
+    .case-card h3,
+    .timeline-item h3 {
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .skill-card h3 {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .skill-card p,
+    .case-card p,
+    .timeline-item p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .skill-card ul,
+    .skill-card ol {
+      margin: 0;
+      padding-left: 20px;
+      color: #e8eeff;
+      line-height: 1.7;
+    }
+
+    .skill-card li {
+      margin-bottom: 8px;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    .case-card {
+      grid-column: span 6;
+      padding: 26px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255,255,255,0.12);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05)),
+        linear-gradient(135deg, rgba(124,156,255,0.10), rgba(94,234,212,0.07));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+    }
+
+    .case-label {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,0.08);
+      color: #dce7ff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .case-card h3 {
+      font-size: 24px;
+    }
+
+    .case-example,
+    .numbered-box,
+    .plain-panel {
+      margin-top: 14px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(10, 16, 32, 0.42);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .case-example {
+      color: #eff4ff;
+      font-weight: 600;
+      line-height: 1.7;
+    }
+
+    .tags-panel {
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
+      box-shadow: var(--shadow);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tag {
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.11);
+      background: rgba(255,255,255,0.06);
+      color: #e7edff;
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition);
+    }
+
+    .tag:hover {
+      transform: translateY(-3px);
+      background: rgba(124,156,255,0.12);
+      border-color: rgba(124,156,255,0.30);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 22px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.045));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+    }
+
+    .timeline-num {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      font-weight: 800;
+      font-size: 18px;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      box-shadow: 0 18px 30px rgba(124,156,255,0.28);
+    }
+
+    .timeline-item h3 {
+      font-size: 21px;
+    }
+
+    .timeline-item ul,
+    .timeline-item ol {
+      margin: 0;
+      padding-left: 22px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .timeline-item li {
+      margin-bottom: 8px;
+    }
+
+    .numbered-box ol,
+    .numbered-box ul,
+    .plain-panel ul {
+      margin: 0;
+      padding-left: 22px;
+      color: #edf2ff;
+      line-height: 1.8;
+    }
+
+    .numbered-box li,
+    .plain-panel li {
+      margin-bottom: 8px;
+    }
+
+    .footer-note {
+      padding: 28px 0 56px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 1100px) {
+      .skill-card {
+        grid-column: span 6;
+      }
+
+      .case-card {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .hero {
+        padding-top: 28px;
+      }
+
+      .hero-card {
+        padding: 24px;
+        border-radius: 24px;
+      }
+
+      .container {
+        width: min(var(--container), calc(100% - 20px));
+      }
+
+      .skill-card,
+      .case-card {
+        grid-column: span 12;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline-num {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        font-size: 16px;
+      }
+
+      .section {
+        padding-top: 18px;
+      }
+
+      .hero-stats {
+        gap: 10px;
+      }
+
+      .stat-chip,
+      .tag {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <main class="container">
+      <section class="hero">
+        <div class="hero-card">
+          <div class="eyebrow">Структура входных данных</div>
+          <h1>Перечень информации, которая потребуется для составления модели</h1>
+          <p class="hero-subtitle">
+            Ниже представлен структурированный список параметров для финансового, операционного и инфраструктурного моделирования клиники:
+            от технического плана и штатной структуры до строительно-монтажных работ и оснащения кабинетов.
+          </p>
+
+          <div class="hero-stats">
+            <div class="stat-chip">Техплан и помещения</div>
+            <div class="stat-chip">Штат и ставки</div>
+            <div class="stat-chip">СМР и лицензирование</div>
+            <div class="stat-chip">Оснащение кабинетов</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Базовые параметры проекта</h2>
+        <p class="section-lead">
+          Этот блок формирует основу модели: площадь, сроки, режим работы и параметры запуска. Он нужен для расчета сроков ввода,
+          арендной нагрузки и общей архитектуры будущей клиники.
+        </p>
+
+        <div class="cards-grid">
+          <article class="skill-card">
+            <div class="card-icon">📐</div>
+            <h3>Техническая база</h3>
+            <p>Набор ключевых исходных документов по объекту и планировке помещений.</p>
+            <ul>
+              <li>Технический план / проект с нумерацией всех кабинетов и помещений.</li>
+              <li>Для планирования закупки СМР и оборудования нужны все помещения, а не только кабинеты, генерирующие выручку.</li>
+              <li>Количество этажей.</li>
+              <li>Дата открытия клиники.</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="card-icon">📄</div>
+            <h3>Коммерческие условия</h3>
+            <p>Финансовые входные параметры, влияющие на арендную и временную модель запуска.</p>
+            <ul>
+              <li>Договор аренды с указанием арендной ставки и площади.</li>
+              <li>Длительность работ по вводу в эксплуатацию.</li>
+              <li>Часы работы клиники.</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="card-icon">🏥</div>
+            <h3>Операционная структура</h3>
+            <p>Параметры, определяющие будущую загрузку, пропускную способность и профиль центра.</p>
+            <ul>
+              <li>Распределение кабинетов / помещений между специальностями.</li>
+              <li>Если в одном кабинете предполагается размещение нескольких специальностей, нужно указать количество часов в неделю для каждой из них.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Выделенные кейсы</h2>
+        <p class="section-lead">
+          Ниже — два важных пояснения, которые стоит визуально акцентировать в документе, потому что они влияют на точность модели и интерпретацию загрузки.
+        </p>
+
+        <div class="case-grid">
+          <article class="case-card">
+            <div class="case-label">Кейс по кабинетам</div>
+            <h3>Совмещение нескольких специальностей в одном кабинете</h3>
+            <p>
+              Если один кабинет используется не одной, а несколькими специальностями, в модели нужно задать не только сам набор направлений, но и часы их присутствия в неделю.
+            </p>
+            <div class="case-example">
+              Пример: Педиатр 40 | Невролог 8 | Кардиолог 8 | Эндокринолог 16 | Гастроэнтеролог 12
+            </div>
+          </article>
+
+          <article class="case-card">
+            <div class="case-label">Кейс по аналитике</div>
+            <h3>Расчет показателей на основе исторических данных</h3>
+            <p>
+              Показатели загруженности от открытого расписания, генерация выручки в час и процент перенаправления в лабораторию по каждой специальности будут рассчитаны на основе собранных исторических данных.
+            </p>
+            <div class="case-example">
+              Далее выводятся средневзвешенные значения в зависимости от наполнения кабинета конкретными специальностями.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Штат и управление</h2>
+        <p class="section-lead">
+          Этот блок нужен для расчета постоянных и переменных расходов на персонал, а также для управленческого контура клиники.
+        </p>
+
+        <div class="cards-grid">
+          <article class="skill-card">
+            <div class="card-icon">👨‍⚕️</div>
+            <h3>Медицинский персонал</h3>
+            <ul>
+              <li>Количество ставок докторов по каждой специальности.</li>
+              <li>Количество медсестер.</li>
+              <li>Количество горничных.</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="card-icon">🩺</div>
+            <h3>Медицинское руководство</h3>
+            <ul>
+              <li>Будут ли задействованы медицинские руководители и их оплата труда.</li>
+              <li>Главврач.</li>
+              <li>Начмед по хирургии.</li>
+              <li>Начмед по амбулатории.</li>
+              <li>Зав. стационаром.</li>
+              <li>Зав. анестезиологического отделения.</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <div class="card-icon">💼</div>
+            <h3>Административный блок</h3>
+            <ul>
+              <li>Количество административного персонала: администраторы, кураторы, кассиры.</li>
+              <li>Расходы на общерегиональный персонал — колл-центр, финансы, юристы, маркетинг и т.д. — рассчитываются отдельно.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Инструменты модели</h2>
+        <p class="section-lead">
+          Эти категории можно оформить как теги или смысловые маркеры интерфейса, чтобы пользователь быстро считывал состав модели.
+        </p>
+
+        <div class="tags-panel">
+          <div class="tags">
+            <span class="tag">Технический план</span>
+            <span class="tag">Арендная ставка</span>
+            <span class="tag">Площадь</span>
+            <span class="tag">Дата открытия</span>
+            <span class="tag">Часы работы</span>
+            <span class="tag">Специальности</span>
+            <span class="tag">Загрузка кабинетов</span>
+            <span class="tag">Выручка в час</span>
+            <span class="tag">Лабораторные направления</span>
+            <span class="tag">Ставки врачей</span>
+            <span class="tag">Медсестры</span>
+            <span class="tag">Администраторы</span>
+            <span class="tag">СМР</span>
+            <span class="tag">Лицензирование</span>
+            <span class="tag">IT-инфраструктура</span>
+            <span class="tag">Оснащение кабинетов</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Строительно-монтажные работы</h2>
+        <p class="section-lead">
+          Блок СМР желательно подавать как детальную структуру затрат, чтобы модель могла корректно учитывать каждую категорию работ отдельно.
+        </p>
+
+        <div class="timeline">
+          <article class="timeline-item">
+            <div class="timeline-num">1</div>
+            <div>
+              <h3>Подготовительный блок</h3>
+              <ul>
+                <li>Проектная документация</li>
+                <li>Лицензирование</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-num">2</div>
+            <div>
+              <h3>Составляющие СМР и СОМ</h3>
+              <p>
+                Ниже перечислены составляющие строительно-монтажных работ в нумерованном формате.
+              </p>
+
+              <div class="numbered-box">
+                <ol>
+                  <li>Демонтаж</li>
+                  <li>Черновые СМР</li>
+                  <li>Водопровод и канализация</li>
+                  <li>Отопление</li>
+                  <li>Электромонтажные работы</li>
+                  <li>Вентиляция и кондиционирование</li>
+                  <li>Слабые кабельные системы</li>
+                  <li>СКУД</li>
+                  <li>Электрика дизайнерская (лампочки и т.д.)</li>
+                  <li>Чистовые СМР</li>
+                  <li>Прочая отделка (например, шоурумы)</li>
+                  <li>Медгазы — магистраль для стационаров, если применимо</li>
+                  <li>Автоматическая пожарная система</li>
+                  <li>Пневмопочта</li>
+                  <li>Прочие</li>
+                </ol>
+              </div>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-num">3</div>
+            <div>
+              <h3>Дополнительные статьи</h3>
+              <ul>
+                <li>Ремонт кровли, если применимо.</li>
+                <li>Ремонт фасада и вывеска, если применимо.</li>
+                <li>IT — рабочие места, МИС и т.д.</li>
+                <li>Прочие расходы.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Оснащение кабинетов</h2>
+        <p class="section-text">
+          Ниже добавлен отдельный блок по шаблону оснащения кабинетов. 
+          
+        </p>
+
+
+        <div class="plain-panel" style="margin-top: 18px;">
+          <h3 style="margin: 0 0 14px; font-size: 22px; letter-spacing: -0.02em;">Структура шаблона</h3>
+          <ul>
+            <li>Номер кабинета</li>
+            <li>Специальность</li>
+            <li>Оборудование/основное средство</li>
+            <li>СПИ, месяц</li>
+            <li>Стоимость</li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="footer-note">
+        Дизайн построен так, чтобы текст легко масштабировался под презентационный лендинг, внутреннюю корпоративную страницу или экран для согласования структуры модели. [web:63]
+      </div>
+    </main>
+  </div>
+</body>
+</html>
